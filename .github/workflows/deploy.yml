@@ -28,12 +28,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ec2-user/cpsc532-z/tdmpc2
-
-            # Write secrets into .env
-
-            # Give .env permissions
-
-            # Build and run container
-            docker-compose down
-            docker-compose up -d
+            cd /home/ec2-user/cpsc532-z/tdmpc2/docker
+            # Build the image
+            docker build . -t tdmpc2:latest
+            
+            echo "TD-MPC2 Docker image built successfully"
