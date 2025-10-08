@@ -49,16 +49,22 @@ def train(cfg: dict):
 	set_seed(cfg.seed)
 	print(colored('Work dir:', 'yellow', attrs=['bold']), cfg.work_dir)
 
+	env = make_env(cfg)
+	model = TDMPC2(cfg)
+
 	trainer_cls = OfflineTrainer if cfg.multitask else OnlineTrainer
 	trainer = trainer_cls(
 		cfg=cfg,
-		env=make_env(cfg),
-		agent=TDMPC2(cfg),
+		env=env,
+		agent=model,
 		buffer=Buffer(cfg),
 		logger=Logger(cfg),
 	)
 	trainer.train()
 	print('\nTraining completed successfully')
+
+	model.save(os.path.join(cfg.work_dir, 'final.pt'))
+	print(f'Model saved to {os.path.join(cfg.work_dir, "final.pt")}')
 
 
 if __name__ == '__main__':
