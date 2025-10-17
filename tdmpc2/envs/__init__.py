@@ -59,14 +59,17 @@ def make_env(cfg):
 	"""
 	Make an environment for TD-MPC2 experiments.
 	"""
-	gym.logger.set_level(40)
+	#gym.logger.set_level(40)
+	gym.logger.min_level = 40
 	if cfg.multitask:
 		env = make_multitask_env(cfg)
 
 	else:
 		env = None
+		#print("\nMujoco:{}\n".format(make_mujoco_env))
 		for fn in [make_dm_control_env, make_maniskill_env, make_metaworld_env, make_myosuite_env, make_mujoco_env]:
 			try:
+				#print("\nTest {}\n".format(fn))
 				env = fn(cfg)
 			except ValueError:
 				pass
