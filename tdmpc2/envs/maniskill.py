@@ -66,6 +66,7 @@ def make_env(cfg):
 	"""
 	Make ManiSkill2 environment.
 	"""
+	print("\nMANISKILLS:{}\n".format(cfg.task))
 	if cfg.task not in MANISKILL_TASKS:
 		raise ValueError('Unknown task:', cfg.task)
 	assert cfg.obs == 'state', 'This task only supports state observations.'

@@ -2,12 +2,22 @@ import numpy as np
 import gymnasium as gym
 from envs.wrappers.timeout import Timeout
 
+#import importlib, importlib.util, pathlib, os
+
+import os, sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+try:
+	from tasks.gripper_env import GripperEnv
+except ImportError as e:
+	print("\n GRIPPER ENV IMPORT ERROR: {}\n".format(e))
+	raise ImportError("Error importing GripperEnv from tasks/gripper_env.py: {}".format(e))
 
 MUJOCO_TASKS = {
 	'mujoco-walker': 'Walker2d-v4',
 	'mujoco-halfcheetah': 'HalfCheetah-v4',
 	'bipedal-walker': 'BipedalWalker-v3',
 	'lunarlander-continuous': 'LunarLander-v2',
+	'gripper': 'Gripper-v1'
 }
 
 class MuJoCoWrapper(gym.Wrapper):
@@ -45,7 +55,12 @@ def make_env(cfg):
 	if not cfg.task in MUJOCO_TASKS:
 		raise ValueError('Unknown task:', cfg.task)
 	assert cfg.obs == 'state', 'This task only supports state observations.'
-	if cfg.task == 'lunarlander-continuous':
+
+	if cfg.task == 'gripper':
+		# create the local gripper environment; pass cfg if the GripperEnv constructor expects configuration
+		#print("Gripper:\n{}\n".format(GripperEnv))
+		env = GripperEnv()
+	elif cfg.task == 'lunarlander-continuous':
 		env = gym.make(MUJOCO_TASKS[cfg.task], continuous=True, render_mode='rgb_array')
 	else:
 		env = gym.make(MUJOCO_TASKS[cfg.task], render_mode='rgb_array')
