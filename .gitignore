@@ -129,8 +129,7 @@ dmypy.json
 .pyre/
 
 # custom
-docker/
-Dockerfile
+docker/Dockerfile
 config.yaml
 *.csv
 data/
