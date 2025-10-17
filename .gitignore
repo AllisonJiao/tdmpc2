@@ -131,5 +131,5 @@ dmypy.json
 # custom
 # docker/Dockerfile
 # config.yaml
-*.csv
-data/
+# *.csv
+# data/
