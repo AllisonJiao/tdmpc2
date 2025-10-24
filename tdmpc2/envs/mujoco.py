@@ -26,6 +26,8 @@ class MuJoCoWrapper(gym.Wrapper):
 		self.env = env
 		self.cfg = cfg
 		self._cumulative_reward = 0
+		# Pass through render_modes from wrapped environment
+		self.render_modes = getattr(env, 'render_modes', None)
 
 	def reset(self):
 		self._cumulative_reward = 0
