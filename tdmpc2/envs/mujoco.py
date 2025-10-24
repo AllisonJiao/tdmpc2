@@ -75,6 +75,7 @@ def make_env(cfg):
 			id='Gripper-v1',
 			entry_point='envs.tasks.gripper_env:GripperEnv',
 			max_episode_steps=100,
+			disable_env_checker=True,  # Disable gymnasium's environment checker
 		)
 		
 		try:
