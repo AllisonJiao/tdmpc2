@@ -59,9 +59,14 @@ def make_env(cfg):
 	if cfg.task == 'gripper':
 		# Register the gripper environment if not already registered
 		try:
+			# Ensure the current directory is in Python path for Docker environment
+			import sys
+			if '.' not in sys.path:
+				sys.path.insert(0, '.')
+			
 			gym.register(
 				id='Gripper-v1',
-				entry_point='tdmpc2.envs.tasks.gripper_env:GripperEnv',
+				entry_point='envs.tasks.gripper_env:GripperEnv',
 				max_episode_steps=100,
 			)
 		except gym.error.Error:
