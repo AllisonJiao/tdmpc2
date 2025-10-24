@@ -71,7 +71,12 @@ def make_env(cfg):
 			)
 		except gym.error.Error:
 			pass  # Already registered
-		env = gym.make('Gripper-v1', render_mode='rgb_array')
+		
+		try:
+			env = gym.make('Gripper-v1', render_mode='rgb_array')
+		except Exception as e:
+			print(f"Error creating gripper environment: {e}")
+			raise ValueError(f"Failed to create gripper environment: {e}")
 	elif cfg.task == 'lunarlander-continuous':
 		env = gym.make(MUJOCO_TASKS[cfg.task], continuous=True, render_mode='rgb_array')
 	else:
