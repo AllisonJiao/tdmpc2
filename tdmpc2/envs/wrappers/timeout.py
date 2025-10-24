@@ -9,6 +9,8 @@ class Timeout(gym.Wrapper):
 	def __init__(self, env, max_episode_steps):
 		super().__init__(env)
 		self._max_episode_steps = max_episode_steps
+		# Pass through render_modes from wrapped environment
+		self.render_modes = getattr(env, 'render_modes', None)
 	
 	@property
 	def max_episode_steps(self):
