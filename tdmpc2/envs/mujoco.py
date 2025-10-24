@@ -57,23 +57,27 @@ def make_env(cfg):
 	assert cfg.obs == 'state', 'This task only supports state observations.'
 
 	if cfg.task == 'gripper':
-		# Register the gripper environment if not already registered
+		# Register the gripper environment (force re-registration)
+		# Ensure the current directory is in Python path for Docker environment
+		import sys
+		if '.' not in sys.path:
+			sys.path.insert(0, '.')
+		
+		# Unregister if already registered to force fresh registration
 		try:
-			# Ensure the current directory is in Python path for Docker environment
-			import sys
-			if '.' not in sys.path:
-				sys.path.insert(0, '.')
-			
-			gym.register(
-				id='Gripper-v1',
-				entry_point='envs.tasks.gripper_env:GripperEnv',
-				max_episode_steps=100,
-			)
-		except gym.error.Error:
-			pass  # Already registered
+			gym.envs.registry.env_specs.pop('Gripper-v1')
+		except KeyError:
+			pass  # Not registered yet
+		
+		gym.register(
+			id='Gripper-v1',
+			entry_point='envs.tasks.gripper_env:GripperEnv',
+			max_episode_steps=100,
+		)
 		
 		try:
 			env = gym.make('Gripper-v1', render_mode='rgb_array')
+			print(f"Gripper environment created successfully, render_modes: {getattr(env.unwrapped, 'render_modes', 'Not found')}")
 		except Exception as e:
 			print(f"Error creating gripper environment: {e}")
 			raise ValueError(f"Failed to create gripper environment: {e}")
