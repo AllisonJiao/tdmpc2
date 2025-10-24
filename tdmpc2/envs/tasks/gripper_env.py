@@ -47,6 +47,8 @@ class GripperEnv(gym.Env):
         # in __init__
         self.ctrl_scale = np.array([15.0, 10.0, 10.0], dtype=float)  # [up/down, left/right, forward/back]
 
+        # Define supported render modes
+        self.render_modes = ["rgb_array"]
 
     def step(self, action):
         self.step_count += 1
