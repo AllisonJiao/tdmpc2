@@ -18,8 +18,8 @@ Success: Gripper directly above the block
 Fail: Over 100 iterations (?)
 """
 class GripperEnv(gym.Env):
-    def __init__(self):
-
+    def __init__(self, render_mode=None):
+        self.render_mode = render_mode
         self.step_count = 0
         self.max_steps = 100
         
