@@ -57,9 +57,16 @@ def make_env(cfg):
 	assert cfg.obs == 'state', 'This task only supports state observations.'
 
 	if cfg.task == 'gripper':
-		# create the local gripper environment; pass cfg if the GripperEnv constructor expects configuration
-		#print("Gripper:\n{}\n".format(GripperEnv))
-		env = GripperEnv()
+		# Register the gripper environment if not already registered
+		try:
+			gym.register(
+				id='Gripper-v1',
+				entry_point='tdmpc2.envs.tasks.gripper_env:GripperEnv',
+				max_episode_steps=100,
+			)
+		except gym.error.Error:
+			pass  # Already registered
+		env = gym.make('Gripper-v1', render_mode='rgb_array')
 	elif cfg.task == 'lunarlander-continuous':
 		env = gym.make(MUJOCO_TASKS[cfg.task], continuous=True, render_mode='rgb_array')
 	else:

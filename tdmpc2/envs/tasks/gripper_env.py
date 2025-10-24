@@ -76,6 +76,18 @@ class GripperEnv(gym.Env):
 
         return obs, reward, terminated, truncated, info
 
+    def render(self, width=384, height=384):
+        """Render the environment and return RGB frame for video recording."""
+        # Get camera ID for the main camera
+        camera_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_CAMERA, "main_camera")
+        
+        # Render the scene
+        renderer = mujoco.Renderer(self.model, height=height, width=width)
+        renderer.update_scene(self.data, camera=camera_id)
+        pixels = renderer.render()
+        
+        return pixels
+
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
 
@@ -89,3 +101,11 @@ class GripperEnv(gym.Env):
         obs = np.concatenate([block_xy, gripper_xy])
 
         return obs, {}
+
+
+# Register the environment with Gymnasium
+gym.register(
+    id='Gripper-v1',
+    entry_point='gripper_env:GripperEnv',
+    max_episode_steps=100,
+)
