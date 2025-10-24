@@ -65,7 +65,7 @@ def make_env(cfg):
 		
 		# Unregister if already registered to force fresh registration
 		try:
-			gym.envs.registry.env_specs.pop('Gripper-v1')
+			del gym.envs.registry['Gripper-v1']
 		except KeyError:
 			pass  # Not registered yet
 		
