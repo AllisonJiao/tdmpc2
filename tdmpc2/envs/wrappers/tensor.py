@@ -12,6 +12,8 @@ class TensorWrapper(gym.Wrapper):
 
 	def __init__(self, env):
 		super().__init__(env)
+		# Pass through render_modes from wrapped environment
+		self.render_modes = getattr(env, 'render_modes', None)
 	
 	def rand_act(self):
 		return torch.from_numpy(self.action_space.sample().astype(np.float32))
