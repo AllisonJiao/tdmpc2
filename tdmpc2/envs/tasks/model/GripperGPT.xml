@@ -40,6 +40,9 @@
                 <geom type="box" size="0.02 0.04 0.08" rgba="0.9 0.3 0.3 1" mass="0.1" friction = "1.0"/>
             </body>
         </body>
+
+        <!-- Camera for rendering -->
+        <camera name="main_camera" pos="1.5 1.5 1.0" xyaxes="0.7 -0.7 0 0.4 0.4 0.8"/>
     </worldbody>
 
     <equality>
@@ -53,7 +56,4 @@
 
         <motor name = "finger" joint="left_slide" ctrlrange="-2 5" ctrllimited="true"/>
     </actuator>
-
-    <!-- Camera for rendering -->
-    <camera name="main_camera" pos="1.5 1.5 1.0" xyaxes="0.7 -0.7 0 0.4 0.4 0.8"/>
 </mujoco>
